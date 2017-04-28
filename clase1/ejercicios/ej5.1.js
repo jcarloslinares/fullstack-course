@@ -16,7 +16,7 @@ const fs = require('fs')
 // constantes con las ubicaciones de los archivos
 const planetsFile = '../data/planets.json'; 
 const filmsFile = '../data/films.json'; //buscar id=5
-const ej1File = './ej1.json';
+const outFile = './ej5.1.json';
 
 //read the films file to found id planets 
 fs.readFile(filmsFile,'utf-8', (err,data)=>{
@@ -33,16 +33,18 @@ fs.readFile(filmsFile,'utf-8', (err,data)=>{
             console.log(`Error leyendo el archivo ${planetsFile}`)
         }
 
-        //console.log(data)
         var planets = JSON.parse(data);
-        // console.log(2, planets)
-                                   // .filter(film => (luke.films.indexOf(film.id) >= 0))
+
         const planetsMovie = planets.filter(planet => (movie.planets.indexOf(planet.id) >= 0 ))
         .map(planet => planet.name )
 
-        console.log(planetsMovie)
-
+        //console.log(planetsMovie)
+        fs.writeFile(outFile, JSON.stringify(planetsMovie), err => {
+			// early return en caso de error
+            if (err) {
+                return console.log(`No se pudo escribir el archivo ${outFile}`);
+            }
+            console.log('The planets movies has been saved!');
+        });
     })
-
-
 })
